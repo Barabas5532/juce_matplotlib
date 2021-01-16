@@ -1,11 +1,17 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "matplotlibcpp.h"
+
+namespace plt = matplotlibcpp;
 
 //==============================================================================
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor& p)
     : AudioProcessorEditor (&p), processorRef (p)
 {
     juce::ignoreUnused (processorRef);
+
+    plt::plot({1, 3, 2, 4});
+    plt::show();
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (400, 300);
