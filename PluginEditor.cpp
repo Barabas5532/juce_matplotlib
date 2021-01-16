@@ -2,8 +2,12 @@
 #include "PluginEditor.h"
 #include "matplotlibcpp.h"
 
+#include <juce_graphics/juce_graphics.h>
+#include <juce_core/juce_core.h>
+
 #define WIDTH 400
 #define HEIGHT 300
+#define FILENAME "/tmp/figure.png"
 
 namespace plt = matplotlibcpp;
 
@@ -15,9 +19,14 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
 
     plt::figure_size(WIDTH, HEIGHT);
     plt::plot({1, 3, 2, 4});
-    plt::save("/tmp/figure.png");
+    plt::save(FILENAME);
+
+    juce::File figureFile(FILENAME);
+    figureComponent.setImage(juce::ImageFileFormat::loadFrom(figureFile));
+
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
+    addAndMakeVisible(figureComponent);
     setSize(WIDTH, HEIGHT);
 }
 
@@ -40,4 +49,5 @@ void AudioPluginAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
+    figureComponent.setBounds(getLocalBounds());
 }
