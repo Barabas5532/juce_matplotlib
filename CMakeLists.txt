@@ -10,6 +10,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 find_package(JUCE CONFIG REQUIRED)        # If you've installed JUCE to your system
 # or
 # add_subdirectory(JUCE)                    # If you've put JUCE in a subdirectory called JUCE
+find_package(Python3 COMPONENTS Development NumPy)
 
 # If you are building a VST2 or AAX plugin, CMake needs to be told where to find these SDKs on your
 # system. This setup should be done before calling `juce_add_plugin`.
@@ -43,6 +44,15 @@ target_sources(juce_matplotlib PRIVATE
     PluginEditor.cpp
     PluginProcessor.cpp)
 
+target_include_directories(juce_matplotlib PRIVATE 
+    ${Python3_INCLUDE_DIRS} 
+    ${Python3_NumPy_INCLUDE_DIRS})
+
+target_include_directories(juce_matplotlib PRIVATE 
+    ${Python3_INCLUDE_DIRS} 
+    ${Python3_NumPy_INCLUDE_DIRS}
+    matplotlib-cpp)
+
 target_compile_definitions(juce_matplotlib
     PUBLIC
     # JUCE_WEB_BROWSER and JUCE_USE_CURL would be on by default, but you might not need them.
@@ -52,4 +62,6 @@ target_compile_definitions(juce_matplotlib
 
 target_link_libraries(juce_matplotlib PRIVATE
     # AudioPluginData           # If we'd created a binary data target, we'd link to it here
-    juce::juce_audio_utils)
+    juce::juce_audio_utils
+    Python3::Python
+    Python3::NumPy)
