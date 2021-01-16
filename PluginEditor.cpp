@@ -2,6 +2,9 @@
 #include "PluginEditor.h"
 #include "matplotlibcpp.h"
 
+#define WIDTH 400
+#define HEIGHT 300
+
 namespace plt = matplotlibcpp;
 
 //==============================================================================
@@ -10,11 +13,12 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
 {
     juce::ignoreUnused (processorRef);
 
+    plt::figure_size(WIDTH, HEIGHT);
     plt::plot({1, 3, 2, 4});
-    plt::show();
+    plt::save("/tmp/figure.png");
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    setSize(WIDTH, HEIGHT);
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor()
